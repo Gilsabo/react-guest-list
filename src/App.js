@@ -49,7 +49,10 @@ export default function App() {
       <div data-test-id="guest">Guests</div>
       {guestList.map((guest) => {
         return (
-          <div key={`div-name-${guest['First name']}${guest['Last name']}`}>
+          <div
+            key={`div-name-${guest['First name']}${guest['Last name']}`}
+            data-test-id="guest"
+          >
             <div>{guest['First name']}</div>
             <div>{guest['Last name']}</div>
             {guest.attending ? <div>Attending</div> : <div>Not attending</div>}
