@@ -1,10 +1,10 @@
 import { useState } from 'react';
 
 export default function App() {
-  const [guestList, setGuestList] = useState([{}]);
+  const [guestList, setGuestList] = useState([]);
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
-  console.log(guestList);
+
   return (
     <div className="App">
       <header>React guest list</header>
@@ -30,14 +30,16 @@ export default function App() {
               onChange={(event) => setLastName(event.target.value)}
               onKeyDown={(e) => {
                 if (e.key === 'Enter') {
-                  setGuestList((oldSetGuestList) => [
-                    ...oldSetGuestList,
+                  setGuestList([
+                    ...guestList,
                     {
-                      'First Name': firstName,
+                      'First name': firstName,
                       'Last name': lastName,
                       attending: false,
                     },
                   ]);
+                  setFirstName(''); // Clear the input after submission
+                  setLastName('');
                 }
               }}
             />
@@ -45,7 +47,15 @@ export default function App() {
         </div>
       </form>
       <div data-test-id="guest">Guests</div>
-      <div>{guestList[firstName]}</div>
+      {guestList.map((guest) => {
+        return (
+          <div key={`div-name-${guest['First name']}${guest['Last name']}`}>
+            <div>{guest['First name']}</div>
+            <div>{guest['Last name']}</div>
+            {guest.attending ? <div>Attending</div> : <div>Not attending</div>}
+          </div>
+        );
+      })}
     </div>
   );
 }
