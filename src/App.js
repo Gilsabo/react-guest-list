@@ -118,8 +118,31 @@ export default function App() {
                 id="attendingCheckbox"
                 aria-label="attending"
                 onChange={() => {
+                  const updateAttendance = async () => {
+                    const response = await fetch(
+                      `${baseUrl}/guests/${guest.id}`,
+                      {
+                        method: 'PUT',
+                        headers: {
+                          'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ attending: !guest.attending }),
+                      },
+                    );
+                    const updatedGuest = await response.json();
+                    console.log(updatedGuest);
+                  };
+                  updateAttendance();
+                  const getGuests = async () => {
+                    const response = await fetch(`${baseUrl}/guests`);
+                    const allGuests = await response.json();
+                    console.log(allGuests);
+                    setGuestList(allGuests);
+                  };
+                  console.log(getGuests());
                   // guest.attending = !guest.attending;
                   // setGuestList([...guestList]);
+                  getGuests();
                 }}
               />
               <label htmlFor="attendingCheckbox">Attending to the event</label>
