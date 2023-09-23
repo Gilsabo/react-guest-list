@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 
 export default function App() {
+  const [isLoading, setIsloading] = useState(true);
   const [formSubmitted, setFormSubmitted] = useState('');
   const [guestList, setGuestList] = useState([]);
   const [firstName, setFirstName] = useState('');
