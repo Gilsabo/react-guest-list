@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
 
+// I need to get the data also when I update the checkboxes
 export default function App() {
-  const [isLoading, setIsloading] = useState(true);
+  const [isLoading, setIsloading] = useState('');
   const [formSubmitted, setFormSubmitted] = useState('');
   const [guestList, setGuestList] = useState([]);
   const [firstName, setFirstName] = useState('');
@@ -16,7 +17,7 @@ export default function App() {
         const response = await fetch(`${baseUrl}/guests`);
         const allGuests = await response.json();
         console.log(allGuests);
-        setGuestList(allGuests);
+        setGuestList([...allGuests]);
       } catch (error) {
         console.log(error);
       }
@@ -29,7 +30,7 @@ export default function App() {
       const response = await fetch(`${baseUrl}/guests`);
       const allGuests = await response.json();
       console.log(allGuests);
-      setGuestList(allGuests);
+      setGuestList([...allGuests]);
     };
     console.log(getGuests());
     setFormSubmitted(false);
@@ -119,6 +120,7 @@ export default function App() {
                 <div>Not attending</div>
               )}
               <input
+                checked={guest.attending}
                 type="checkbox"
                 id="attendingCheckbox"
                 aria-label="attending"
@@ -142,7 +144,7 @@ export default function App() {
                     const response = await fetch(`${baseUrl}/guests`);
                     const allGuests = await response.json();
                     console.log(allGuests);
-                    setGuestList(allGuests);
+                    setGuestList([...allGuests]);
                   };
                   console.log(getGuests());
                   // guest.attending = !guest.attending;
