@@ -11,10 +11,14 @@ export default function App() {
 
   useEffect(() => {
     const getGuests = async () => {
-      const response = await fetch(`${baseUrl}/guests`);
-      const allGuests = await response.json();
-      console.log(allGuests);
-      setGuestList(allGuests);
+      try {
+        const response = await fetch(`${baseUrl}/guests`);
+        const allGuests = await response.json();
+        console.log(allGuests);
+        setGuestList(allGuests);
+      } catch (error) {
+        console.log(error);
+      }
     };
     console.log(getGuests());
   }, []);
@@ -102,7 +106,7 @@ export default function App() {
       {guestList.map((guest) => {
         return (
           <div
-            key={`div-name-${guest['First name']}${guest['Last name']}`}
+            key={`div-name-${guest.firstName}${guest.lastName}`}
             data-test-id="guest"
           >
             <div>{guest.firstName}</div>
