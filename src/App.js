@@ -119,10 +119,10 @@ export default function App() {
               ) : (
                 <div>Not attending</div>
               )}
-              <input
-                checked={guest.attending}
+              <input /* ------------------------attending ------------- */
                 type="checkbox"
-                id="attendingCheckbox"
+                id={`attendingCheckbox-${guest.id}`}
+                checked={guest.attending}
                 aria-label="attending"
                 onChange={() => {
                   const updateAttendance = async () => {
