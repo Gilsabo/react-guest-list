@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 
 // I need to get the data also when I update the checkboxes
 export default function App() {
+  const [isDisabled, setIsDisabled] = useState(true);
   const [isLoading, setIsLoading] = useState(true);
   const [formSubmitted, setFormSubmitted] = useState('');
   const [guestList, setGuestList] = useState([]);
@@ -18,6 +19,7 @@ export default function App() {
         const allGuests = await response.json();
         console.log(allGuests);
         setIsLoading(false);
+        setIsDisabled(false);
         setGuestList([...allGuests]);
       } catch (error) {
         console.log(error);
@@ -54,6 +56,7 @@ export default function App() {
           <label>
             First Name:
             <input
+              disabled={isDisabled}
               value={firstName}
               onChange={(event) => setFirstName(event.target.value)}
             />
@@ -63,6 +66,7 @@ export default function App() {
           <label>
             Last Name:
             <input
+              disabled={isDisabled}
               value={lastName}
               onChange={(event) => setLastName(event.target.value)}
               onKeyDown={(e) => {
