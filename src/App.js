@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 
 // I need to get the data also when I update the checkboxes
 export default function App() {
-  const [isLoading, setIsloading] = useState('');
+  const [isLoading, setIsloading] = useState(true);
   const [formSubmitted, setFormSubmitted] = useState('');
   const [guestList, setGuestList] = useState([]);
   const [firstName, setFirstName] = useState('');
@@ -17,6 +17,7 @@ export default function App() {
         const response = await fetch(`${baseUrl}/guests`);
         const allGuests = await response.json();
         console.log(allGuests);
+        setIsloading(false);
         setGuestList([...allGuests]);
       } catch (error) {
         console.log(error);
@@ -105,6 +106,7 @@ export default function App() {
         </div>
       </form>
       <div data-test-id="guest">Guests</div>
+      {isLoading ? <div>Loading...</div> : null}
       {guestList.map((guest) => {
         return (
           <div
