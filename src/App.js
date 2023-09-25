@@ -10,7 +10,8 @@ export default function App() {
   const [lastName, setLastName] = useState('');
   // const [id, setId] = useState(0);
 
-  const baseUrl = 'http://localhost:4000';
+  const baseUrl =
+    'http://express-guest-list-api-memory-data-store--gilsabo.repl.co';
 
   useEffect(() => {
     const getGuests = async () => {
