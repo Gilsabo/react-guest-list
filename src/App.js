@@ -130,7 +130,7 @@ export default function App() {
                 id={`attendingCheckbox-${guest.id}`}
                 checked={guest.attending}
                 aria-label="attending"
-                onChange={() => {
+                onChange={async () => {
                   const updateAttendance = async () => {
                     const response = await fetch(
                       `${baseUrl}/guests/${guest.id}`,
@@ -145,17 +145,22 @@ export default function App() {
                     const updatedGuest = await response.json();
                     console.log(updatedGuest);
                   };
-                  updateAttendance();
+
                   const getGuests = async () => {
                     const response = await fetch(`${baseUrl}/guests`);
                     const allGuests = await response.json();
                     console.log(allGuests);
                     setGuestList([...allGuests]);
                   };
+                  try {
+                    await updateAttendance(); // Wait for updateAttendance to complete
+                    await getGuests(); // Wait for getGuests to complete
+                  } catch (error) {
+                    console.error(error);
+                  }
                   console.log(getGuests());
                   // guest.attending = !guest.attending;
                   // setGuestList([...guestList]);
-                  getGuests();
                 }}
               />
               <label htmlFor="attendingCheckbox">Attending to the event</label>
