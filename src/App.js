@@ -20,8 +20,8 @@ export default function App() {
         const allGuests = await response.json();
         console.log(allGuests);
         setIsLoading(false);
-        setIsDisabled(false);
         setGuestList([...allGuests]);
+        setIsDisabled(false);
       } catch (error) {
         console.log(error);
       }
