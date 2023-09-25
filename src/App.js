@@ -113,88 +113,90 @@ export default function App() {
       </form>
       <div data-test-id="guest">Guests</div>
       {isLoading ? <div>Loading...</div> : null}
-      {guestList.length > 0
-        ? guestList.map((guest) => {
-            return (
-              <div
-                key={`div-name-${guest.firstName}${guest.lastName}`}
-                data-test-id="guest"
-              >
-                <div>{guest.firstName}</div>
-                <div>{guest.lastName}</div>
-                <div>
-                  {guest.attending ? (
-                    <div>Attending</div>
-                  ) : (
-                    <div>Not attending</div>
-                  )}
-                  <input /* ------------------------attending ------------- */
-                    type="checkbox"
-                    id={`attendingCheckbox-${guest.id}`}
-                    checked={guest.attending}
-                    aria-label="attending"
-                    onChange={async () => {
-                      const updateAttendance = async () => {
-                        const response = await fetch(
-                          `${baseUrl}/guests/${guest.id}`,
-                          {
-                            method: 'PUT',
-                            headers: {
-                              'Content-Type': 'application/json',
-                            },
-                            body: JSON.stringify({
-                              attending: !guest.attending,
-                            }),
-                          },
-                        );
-                        const updatedGuest = await response.json();
-                        console.log(updatedGuest);
-                      };
-
-                      const getGuests = async () => {
-                        const response = await fetch(`${baseUrl}/guests`);
-                        const allGuests = await response.json();
-                        console.log(allGuests);
-                        setGuestList([...allGuests]);
-                      };
-                      try {
-                        await updateAttendance(); // Wait for updateAttendance to complete
-                        await getGuests(); // Wait for getGuests to complete
-                      } catch (error) {
-                        console.error(error);
-                      }
-                      console.log(getGuests());
-                      // guest.attending = !guest.attending;
-                      // setGuestList([...guestList]);
-                    }}
-                  />
-                  <label htmlFor="attendingCheckbox">
-                    Attending to the event
-                  </label>
-                </div>
-                <button
-                  type="button"
-                  onClick={() => {
-                    handleRemove(guest.id);
-                    const deleteGuest = async () => {
+      {guestList.length > 0 ? (
+        guestList.map((guest) => {
+          return (
+            <div
+              key={`div-name-${guest.firstName}${guest.lastName}`}
+              data-test-id="guest"
+            >
+              <div>{guest.firstName}</div>
+              <div>{guest.lastName}</div>
+              <div>
+                {guest.attending ? (
+                  <div>Attending</div>
+                ) : (
+                  <div>Not attending</div>
+                )}
+                <input /* ------------------------attending ------------- */
+                  type="checkbox"
+                  id={`attendingCheckbox-${guest.id}`}
+                  checked={guest.attending}
+                  aria-label="attending"
+                  onChange={async () => {
+                    const updateAttendance = async () => {
                       const response = await fetch(
                         `${baseUrl}/guests/${guest.id}`,
                         {
-                          method: 'DELETE',
+                          method: 'PUT',
+                          headers: {
+                            'Content-Type': 'application/json',
+                          },
+                          body: JSON.stringify({
+                            attending: !guest.attending,
+                          }),
                         },
                       );
-                      const deletedGuest = await response.json();
-                      console.log(deletedGuest);
+                      const updatedGuest = await response.json();
+                      console.log(updatedGuest);
                     };
-                    console.log(deleteGuest());
+
+                    const getGuests = async () => {
+                      const response = await fetch(`${baseUrl}/guests`);
+                      const allGuests = await response.json();
+                      console.log(allGuests);
+                      setGuestList([...allGuests]);
+                    };
+                    try {
+                      await updateAttendance(); // Wait for updateAttendance to complete
+                      await getGuests(); // Wait for getGuests to complete
+                    } catch (error) {
+                      console.error(error);
+                    }
+                    console.log(getGuests());
+                    // guest.attending = !guest.attending;
+                    // setGuestList([...guestList]);
                   }}
-                >
-                  Remove
-                </button>
+                />
+                <label htmlFor="attendingCheckbox">
+                  Attending to the event
+                </label>
               </div>
-            );
-          })
-        : null}
+              <button
+                type="button"
+                onClick={() => {
+                  handleRemove(guest.id);
+                  const deleteGuest = async () => {
+                    const response = await fetch(
+                      `${baseUrl}/guests/${guest.id}`,
+                      {
+                        method: 'DELETE',
+                      },
+                    );
+                    const deletedGuest = await response.json();
+                    console.log(deletedGuest);
+                  };
+                  console.log(deleteGuest());
+                }}
+              >
+                Remove
+              </button>
+            </div>
+          );
+        })
+      ) : (
+        <div>no guests</div>
+      )}
     </div>
   );
 }
