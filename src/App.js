@@ -11,7 +11,7 @@ export default function App() {
   // const [id, setId] = useState(0);
 
   const baseUrl =
-    'http://express-guest-list-api-memory-data-store--gilsabo.repl.co';
+    'https://express-guest-list-api-memory-data-store--gilsabo.repl.co';
 
   useEffect(() => {
     const getGuests = async () => {
