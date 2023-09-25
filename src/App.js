@@ -67,7 +67,6 @@ export default function App() {
           <label>
             Last name:
             <input
-              disabled={isDisabled}
               value={lastName}
               onChange={(event) => setLastName(event.target.value)}
               onKeyDown={(e) => {
@@ -106,6 +105,7 @@ export default function App() {
                   console.log(post());
                 }
               }}
+              disabled={isDisabled}
             />
           </label>
         </div>
