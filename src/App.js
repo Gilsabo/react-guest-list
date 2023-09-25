@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 export default function App() {
   const [isDisabled, setIsDisabled] = useState(true);
   const [isLoading, setIsLoading] = useState(true);
-  // const [formSubmitted, setFormSubmitted] = useState('');
+  const [formSubmitted, setFormSubmitted] = useState('');
   const [guestList, setGuestList] = useState([]);
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
@@ -14,7 +14,7 @@ export default function App() {
     'https://express-guest-list-api-memory-data-store--gilsabo.repl.co';
 
   useEffect(() => {
-    const fetchGuests = async () => {
+    const getGuests = async () => {
       try {
         const response = await fetch(`${baseUrl}/guests`);
         const allGuests = await response.json();
@@ -26,50 +26,19 @@ export default function App() {
         console.log(error);
       }
     };
-    console.log(fetchGuests());
+    console.log(getGuests());
   }, []);
 
-  const getGuests = async () => {
-    try {
+  useEffect(() => {
+    const getGuests = async () => {
       const response = await fetch(`${baseUrl}/guests`);
       const allGuests = await response.json();
       console.log(allGuests);
-      setIsLoading(false);
       setGuestList([...allGuests]);
-      setIsDisabled(false);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const post = async () => {
-    const response = await fetch(`${baseUrl}/guests`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        firstName: firstName,
-        lastName: lastName,
-      }),
-    });
-    const createdGuest = await response.json();
-    console.log(createdGuest);
-  };
-
-  const updateAttendance = async (guest) => {
-    const response = await fetch(`${baseUrl}/guests/${guest.id}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        attending: !guest.attending,
-      }),
-    });
-    const updatedGuest = await response.json();
-    console.log(updatedGuest);
-  };
+    };
+    console.log(getGuests());
+    setFormSubmitted(false);
+  }, [formSubmitted]);
 
   const handleRemove = (guestId) => {
     const guestListUpdated = guestList.filter((guest) => guest.id !== guestId);
@@ -100,7 +69,7 @@ export default function App() {
             <input
               value={lastName}
               onChange={(event) => setLastName(event.target.value)}
-              onKeyDown={async (e) => {
+              onKeyDown={(e) => {
                 /* -------------------------------enter---------------*/
                 if (e.key === 'Enter') {
                   /* setId(id + 1);
@@ -114,20 +83,26 @@ export default function App() {
                     },
                   ]); */
 
-                  // setFormSubmitted(true);
+                  setFormSubmitted(true);
                   setFirstName('');
                   setLastName('');
                   setIsDisabled(false);
 
                   // console.log(id);
-
-                  try {
-                    await getGuests(); // Wait for getGuests to complete
-                    await post();
-                  } catch (error) {
-                    console.error(error);
-                  }
-                  console.log(getGuests());
+                  const post = async () => {
+                    const response = await fetch(`${baseUrl}/guests`, {
+                      method: 'POST',
+                      headers: {
+                        'Content-Type': 'application/json',
+                      },
+                      body: JSON.stringify({
+                        firstName: firstName,
+                        lastName: lastName,
+                      }),
+                    });
+                    const createdGuest = await response.json();
+                    console.log(createdGuest);
+                  };
                   console.log(post());
                 }
               }}
@@ -161,8 +136,31 @@ export default function App() {
                     checked={guest.attending}
                     aria-label="attending"
                     onChange={async () => {
+                      const updateAttendance = async () => {
+                        const response = await fetch(
+                          `${baseUrl}/guests/${guest.id}`,
+                          {
+                            method: 'PUT',
+                            headers: {
+                              'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify({
+                              attending: !guest.attending,
+                            }),
+                          },
+                        );
+                        const updatedGuest = await response.json();
+                        console.log(updatedGuest);
+                      };
+
+                      const getGuests = async () => {
+                        const response = await fetch(`${baseUrl}/guests`);
+                        const allGuests = await response.json();
+                        console.log(allGuests);
+                        setGuestList([...allGuests]);
+                      };
                       try {
-                        await updateAttendance(guest); // Wait for updateAttendance to complete
+                        await updateAttendance(); // Wait for updateAttendance to complete
                         await getGuests(); // Wait for getGuests to complete
                       } catch (error) {
                         console.error(error);
