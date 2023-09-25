@@ -87,6 +87,8 @@ export default function App() {
                   setFirstName('');
                   setLastName('');
 
+                  setIsDisabled(true);
+
                   // console.log(id);
                   const post = async () => {
                     const response = await fetch(`${baseUrl}/guests`, {
