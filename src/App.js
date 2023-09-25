@@ -87,7 +87,7 @@ export default function App() {
                   setFirstName('');
                   setLastName('');
 
-                  setIsDisabled(true);
+                  setIsDisabled(false);
 
                   // console.log(id);
                   const post = async () => {
