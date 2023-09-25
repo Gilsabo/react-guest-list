@@ -113,7 +113,7 @@ export default function App() {
       </form>
       <div data-test-id="guest">Guests</div>
       {isLoading ? <div>Loading...</div> : null}
-      {!guestList.length === 0
+      {guestList.length > 0
         ? guestList.map((guest) => {
             return (
               <div
