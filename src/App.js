@@ -54,7 +54,7 @@ export default function App() {
       >
         <div>
           <label>
-            First Name:
+            First name:
             <input
               disabled={isDisabled}
               value={firstName}
@@ -64,7 +64,7 @@ export default function App() {
         </div>
         <div>
           <label>
-            Last Name:
+            Last name:
             <input
               disabled={isDisabled}
               value={lastName}
