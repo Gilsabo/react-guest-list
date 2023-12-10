@@ -18,7 +18,7 @@ export default function App() {
       try {
         const response = await fetch(`${baseUrl}/guests`);
         const allGuests = await response.json();
-        console.log(allGuests);
+
         setIsLoading(false);
         setGuestList([...allGuests]);
         setIsDisabled(false);
@@ -26,17 +26,14 @@ export default function App() {
         console.log(error);
       }
     };
-    console.log(getGuests());
   }, []);
 
   useEffect(() => {
     const getGuests = async () => {
       const response = await fetch(`${baseUrl}/guests`);
       const allGuests = await response.json();
-      console.log(allGuests);
       setGuestList([...allGuests]);
     };
-    console.log(getGuests());
     setFormSubmitted(false);
   }, [formSubmitted]);
 
@@ -87,8 +84,6 @@ export default function App() {
                   setFirstName('');
                   setLastName('');
                   setIsDisabled(false);
-
-                  // console.log(id);
                   const post = async () => {
                     const response = await fetch(`${baseUrl}/guests`, {
                       method: 'POST',
@@ -101,9 +96,7 @@ export default function App() {
                       }),
                     });
                     const createdGuest = await response.json();
-                    console.log(createdGuest);
                   };
-                  console.log(post());
                 }
               }}
               disabled={isDisabled}
@@ -150,13 +143,11 @@ export default function App() {
                           },
                         );
                         const updatedGuest = await response.json();
-                        console.log(updatedGuest);
                       };
 
                       const getGuests = async () => {
                         const response = await fetch(`${baseUrl}/guests`);
                         const allGuests = await response.json();
-                        console.log(allGuests);
                         setGuestList([...allGuests]);
                       };
                       try {
@@ -165,9 +156,6 @@ export default function App() {
                       } catch (error) {
                         console.error(error);
                       }
-                      console.log(getGuests());
-                      // guest.attending = !guest.attending;
-                      // setGuestList([...guestList]);
                     }}
                   />
                   <label htmlFor="attendingCheckbox">
@@ -186,9 +174,7 @@ export default function App() {
                         },
                       );
                       const deletedGuest = await response.json();
-                      console.log(deletedGuest);
                     };
-                    console.log(deleteGuest());
                   }}
                 >
                   Remove
